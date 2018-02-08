@@ -9,6 +9,11 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+    }
+
     /**
      * @param User $user
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -30,6 +35,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
@@ -43,10 +49,12 @@ class UserController extends Controller
      */
     public function update(UserUpdate $request, User $user, ImageUploadHandler $uploader)
     {
+        $this->authorize('update', $user);
+
         $data = $request->all();
         //
         if ($request->hasFile('avatar')) {
-            $result = $uploader->save($request->avatar, 'avatars', $user->id, 362);
+            $result = $uploader->save($request->avatar, 'avatars', $user->id, 360);
             if ($result) {
                 $data['avatar'] = $result['path'];
             }

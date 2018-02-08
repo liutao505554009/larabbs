@@ -2,7 +2,6 @@
 
 namespace App\Handlers;
 
-
 use Intervention\Image\Facades\Image;
 
 class ImageUploadHandler
@@ -10,6 +9,14 @@ class ImageUploadHandler
     // 只允许以下后缀名的图片文件上传
     protected $allowed_ext = ["png", "jpg", "gif", 'jpeg'];
 
+    /**
+     * @param $file
+     * @param $folder
+     * @param $file_prefix
+     * @param bool $max_width
+     * @return array|bool
+     *
+     */
     public function save($file, $folder, $file_prefix, $max_width = false)
     {
         // 构建存储的文件夹规则，值如：uploads/images/avatars/201709/21/
@@ -31,6 +38,8 @@ class ImageUploadHandler
         if ( ! in_array($extension, $this->allowed_ext)) {
             return false;
         }
+        // 将图片移动到我们的目标存储路径中
+        $file->move($upload_path, $filename);
 
         // 如果限制了图片宽度，就进行裁剪
         if ($max_width && $extension != 'gif') {
@@ -39,8 +48,6 @@ class ImageUploadHandler
             $this->reduceSize($upload_path . '/' . $filename, $max_width);
         }
 
-        // 将图片移动到我们的目标存储路径中
-        $file->move($upload_path, $filename);
 
         return [
             'path' => config('app.url') . "/$folder_name/$filename"
