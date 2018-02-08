@@ -27,6 +27,7 @@ class UserUpdate extends FormRequest
             'name' => 'required|between:3,25|regex:/^[A-Za-z0-9\-\_]+$/|unique:users,name,' . \Auth::id(),
             'email' => 'required|email',
             'introduction' => 'max:80',
+            'avatar' => 'mimes:jpeg,bmp,png,gif|dimensions:min_width=80,min_height=80',
         ];
     }
 
@@ -40,6 +41,8 @@ class UserUpdate extends FormRequest
             'email.required' => '邮箱不能为空',
             'email.email' => '邮箱格式有误',
             'introduction.max' => '个人简介最多包含80个字符',
+            'avatar.mimes' =>'头像必须是 jpeg, bmp, png, gif 格式的图片',
+            'avatar.dimensions' => '图片的清晰度不够，宽和高需要 80px 以上',
         ];
     }
 }
