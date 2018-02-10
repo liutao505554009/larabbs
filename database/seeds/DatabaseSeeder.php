@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             \App\Models\User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
-                'password' => bcrypt('password'),
+                'password' => bcrypt('123456qq'),
                 'avatar' => $faker->randomElement($avatars),
 //            'remember_token' => str_random(10),
                 'introduction' => $faker->sentence(),
@@ -59,8 +59,8 @@ class DatabaseSeeder extends Seeder
 
         // 单独处理第一个用户的数据
         $user = \App\Models\User::find(1);
-        $user->name = 'Summer';
-        $user->email = 'summer@yousails.com';
+        $user->name = 'liutao';
+        $user->email = 'liutao@qq.com';
         $user->avatar = 'https://fsdhubcdn.phphub.org/uploads/images/201710/14/1/ZqM7iaP4CR.png?imageView2/1/w/200/h/200';
         $user->save();
 
