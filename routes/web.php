@@ -17,6 +17,8 @@ Route::namespace('Home')->group(function () {
     Route::resource('users', 'UserController', ['only' => ['show', 'update', 'edit']]);
     Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
     Route::resource('categories', 'CategoryController', ['only' => ['show']]);
+
+    Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
 });
 
 
