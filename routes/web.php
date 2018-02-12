@@ -12,7 +12,7 @@
 */
 
 Route::namespace('Home')->group(function () {
-    Route::get('/', 'IndexController@index')->name('home');
+    Route::get('/', 'TopicsController@index')->name('root');
     Auth::routes();
     Route::resource('users', 'UserController', ['only' => ['show', 'update', 'edit']]);
     Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
@@ -22,6 +22,7 @@ Route::namespace('Home')->group(function () {
     Route::resource('topics', 'TopicsController', ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
     Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
     Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show');
+    Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);
+
+    Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
 });
-
-

@@ -16,8 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+
         $this->seedUser();
         $this->seedTopic();
+        $this->seedReply();
 
 
     }
@@ -68,14 +70,11 @@ class DatabaseSeeder extends Seeder
 
     protected function seedTopic()
     {
-        $now = \Carbon\Carbon::now();
 
-        \Illuminate\Database\Eloquent\Model::unguard();
+//        \Illuminate\Database\Eloquent\Model::unguard();
 
         // use the faker library to mock some data
         $faker = Faker\Factory::create();
-
-        $sentence = $faker->sentence();
 
         // 随机取一个月以内的时间
         $updated_at = $faker->dateTimeThisMonth();
@@ -85,9 +84,9 @@ class DatabaseSeeder extends Seeder
         // create 30 articles
         foreach(range(1, 30) as $index) {
             \App\Models\Topic::create([
-                'title' => $sentence,
+                'title' => $faker->sentence(),
                 'body' => $faker->text(),
-                'excerpt' => $sentence,
+                'excerpt' => $faker->sentence(),
                 'user_id' => rand(1, 10),
                 'category_id' => rand(1, 4),
                 'created_at' => $created_at,
@@ -95,7 +94,36 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        \Illuminate\Database\Eloquent\Model::unguard();
+//        \Illuminate\Database\Eloquent\Model::unguard();
+    }
+
+
+    protected function seedReply()
+    {
+        // use the faker library to mock some data
+        $faker = Faker\Factory::create();
+
+        $time = $faker->dateTimeThisMonth();
+
+        // 所有用户 ID 数组，如：[1,2,3,4]
+        $user_ids = \App\Models\User::all()->pluck('id')->toArray();
+
+        // 所有话题 ID 数组，如：[1,2,3,4]
+        $topic_ids = \App\Models\Topic::all()->pluck('id')->toArray();
+
+        // use the faker library to mock some data
+        $faker = Faker\Factory::create();
+
+        // create 30
+        foreach(range(1, 30) as $index) {
+            \App\Models\Reply::create([
+                'content' => $faker->sentence(),
+                'created_at' => $time,
+                'updated_at' => $time,
+                'user_id'    => $faker->randomElement($user_ids),
+                'topic_id'    => $faker->randomElement($topic_ids),
+            ]);
+        }
 
     }
 

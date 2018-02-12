@@ -32,9 +32,11 @@ class Topic extends Model
         return $query->with('user', 'category');
     }
 
-    public function topics()
+
+
+    public function replies()
     {
-        return $this->hasMany(Topic::class);
+        return $this->hasMany(Reply::class);
     }
 
     public function scopeRecentReplied($query)
